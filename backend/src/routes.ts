@@ -1,8 +1,9 @@
 import { Router } from "express";
+import taskController from "./controllers/taskController";
 
-const routes = Router()
+const routes = Router();
 
-// routes.get("/tasks", (req, res) => res.status(200).send("O router ta funcionando!"))
-
+routes.get("/tasks", taskController.getAll);
+routes.post("/tasks", taskController.createTask);
 
 export default routes;
