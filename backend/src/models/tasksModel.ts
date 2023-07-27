@@ -2,6 +2,7 @@ import { connection } from "./connection";
 
 interface Itask {
 	title: string;
+	status?: string;
 }
 
 export default {
@@ -25,5 +26,26 @@ export default {
 		]);
 
 		return { insertId: createdTask.insertId };
+	},
+
+	async deleteTask(id: string) {
+		const [removedTask] = await connection.execute(
+			"DELETE FROM tasks WHERE id = ?",
+			[id]
+		);
+		return removedTask;
+	},
+
+	async updateTask(id: string, task: Itask) {
+		const { title, status } = task;
+
+		const query = "UPDATE tasks SET title = ?, status = ? WHERE id = ?";
+
+		const [updatedTask] = await connection.execute(query, [
+			title,
+			status,
+			id,
+		]);
+		return updatedTask;
 	},
 };
